@@ -12,6 +12,10 @@ export class MySqlConfigService {
     constructor(private configService: ConfigService) {
     }
 
+    get connection(): string {
+        return this.configService.get<string>('mysql.connection');
+    }
+
     get host(): string {
         return this.configService.get<string>('mysql.host');
     }

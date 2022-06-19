@@ -14,6 +14,7 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
         ConfigModule.forRoot({
             load: [configuration],
             validationSchema: Joi.object({
+                DB_CONNECTION: Joi.string().default('mysql'),
                 DB_HOST: Joi.string().default('127.0.0.1'),
                 DB_PORT: Joi.number().default(5432),
                 DB_DATABASE: Joi.string().default("nestjs"),

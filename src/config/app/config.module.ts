@@ -15,7 +15,6 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
             load: [configuration],
             validationSchema: Joi.object({
                 APP_KEY: Joi.string().default(null),
-                APP_DEBUG: Joi.boolean().default(false),
                 APP_TIMEZONE: Joi.string().default("Asia/Dhaka"),
                 APP_LOCALE: Joi.string().valid('en', 'bd').default('en'),
                 APP_COPYRIGHTS: Joi.string().default("Copyright"),

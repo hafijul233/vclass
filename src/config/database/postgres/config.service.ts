@@ -12,6 +12,10 @@ export class PostgreSqlConfigService {
     constructor(private configService: ConfigService) {
     }
 
+    get connection(): string {
+        return this.configService.get<string>('postgres.connection');
+    }
+
     get host(): string {
         return this.configService.get<string>('postgres.host');
     }
