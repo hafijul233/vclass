@@ -1,25 +1,23 @@
 import { DatabaseType } from 'typeorm';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { PostgreSqlConfigModule } from '@app/config/database/postgres/config.module';
-import { PostgreSqlConfigService } from '@app/config/database/postgres/config.service';
+import { PostgresConfigModule } from '@app/config/database/postgres/config.module';
+import { PostgresConfigService } from '@app/config/database/postgres/config.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [PostgreSqlConfigModule],
-      useFactory: async (postgreSqlConfig: PostgreSqlConfigService) => ({
+      imports: [PostgresConfigModule],
+      useFactory: async (postgreSqlConfig: PostgresConfigService) => ({
         type: 'postgres' as DatabaseType,
         host: postgreSqlConfig.host,
         port: postgreSqlConfig.port,
         username: postgreSqlConfig.username,
         password: postgreSqlConfig.password,
         database: postgreSqlConfig.database,
-        entities: [
-          // ... All PostgreSql based schemas/entities
-        ],
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       }),
-      inject: [PostgreSqlConfigService],
+      inject: [PostgresConfigService],
     } as TypeOrmModuleAsyncOptions),
   ],
 })
