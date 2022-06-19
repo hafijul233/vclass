@@ -1,5 +1,5 @@
-import {Injectable} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 /**
  * Service dealing with app config based operations.
@@ -8,31 +8,29 @@ import {ConfigService} from '@nestjs/config';
  */
 @Injectable()
 export class MySqlConfigService {
+  constructor(private configService: ConfigService) {}
 
-    constructor(private configService: ConfigService) {
-    }
+  get connection(): string {
+    return this.configService.get<string>('database.mysql.connection');
+  }
 
-    get connection(): string {
-        return this.configService.get<string>('mysql.connection');
-    }
+  get host(): string {
+    return this.configService.get<string>('database.mysql.host');
+  }
 
-    get host(): string {
-        return this.configService.get<string>('mysql.host');
-    }
+  get port(): number {
+    return Number(this.configService.get<number>('database.mysql.port'));
+  }
 
-    get port(): number {
-        return Number(this.configService.get<number>('mysql.port'));
-    }
+  get database(): string {
+    return this.configService.get<string>('database.mysql.database');
+  }
 
-    get database(): string {
-        return this.configService.get<string>('mysql.database');
-    }
+  get username(): string {
+    return this.configService.get<string>('database.mysql.username');
+  }
 
-    get username(): string {
-        return this.configService.get<string>('mysql.username');
-    }
-
-    get password(): string {
-        return this.configService.get<string>('mysql.password');
-    }
+  get password(): string {
+    return this.configService.get<string>('database.mysql.password');
+  }
 }
