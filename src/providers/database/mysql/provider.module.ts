@@ -1,14 +1,14 @@
 import {DatabaseType} from 'typeorm';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule, TypeOrmModuleAsyncOptions} from '@nestjs/typeorm';
-import {MysqlConfigModule} from '../../../config/database/mysql/config.module';
-import {MysqlConfigService} from '../../../config/database/mysql/config.service';
+import {MySqlConfigModule} from '../../../config/database/mysql/config.module';
+import {MySqlConfigService} from '../../../config/database/mysql/config.service';
 
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
-            imports: [MysqlConfigModule],
-            useFactory: async (mysqlConfig: MysqlConfigService) => ({
+            imports: [MySqlConfigModule],
+            useFactory: async (mysqlConfig: MySqlConfigService) => ({
                 type: 'mysql' as DatabaseType,
                 host: mysqlConfig.host,
                 port: mysqlConfig.port,
@@ -19,7 +19,7 @@ import {MysqlConfigService} from '../../../config/database/mysql/config.service'
                     // ... All MySQL based schemas/entities
                 ],
             }),
-            inject: [MysqlConfigService],
+            inject: [MySqlConfigService],
         } as TypeOrmModuleAsyncOptions),
     ],
 })
