@@ -30,6 +30,7 @@
     "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.4.7",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/typeorm": "^8.1.4",
     "module-alias": "^2.2.2",
