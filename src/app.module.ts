@@ -1,17 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from '@app/app.controller';
-import { AppService } from '@app/app.service';
 import { AppConfigModule } from '@app/config/app/config.module';
-import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module';
+import { ApiConfigModule } from '@app/config/api/config.module';
+import { ApiConfigService } from '@app/config/api/config.service';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRootAsync({
+      imports: [ApiConfigModule],
+      inject: [ApiConfigService],
+      useFactory: (apiConfig: ApiConfigService) => ({
+        ttl: apiConfig.quota,
+        limit: apiConfig.limit,
+      }),
+    }),
     AppConfigModule,
-    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
