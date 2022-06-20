@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 import { Module } from '@nestjs/common';
 import configuration from './configuration';
-import { MySqlConfigService } from './config.service';
+import { DatabaseConfigService } from './config.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 /**
@@ -23,7 +23,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  providers: [ConfigService, MySqlConfigService],
-  exports: [ConfigService, MySqlConfigService],
+  providers: [ConfigService, DatabaseConfigService],
+  exports: [ConfigService, DatabaseConfigService],
 })
-export class MySqlConfigModule {}
+export class DatabaseConfigModule {}
