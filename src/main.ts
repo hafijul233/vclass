@@ -23,20 +23,25 @@ async function bootstrap() {
 
   // Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('vClass API Documentation')
+    .setDescription(
+      'vClass stands for Virtual Classroom which was a project assigned to me as an technical assessment test.',
+    )
     .setVersion('1.0')
     .addTag('cats')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    ignoreGlobalPrefix: true,
+  });
+
   const customOptions: SwaggerCustomOptions = {
     swaggerOptions: {
-      persistAuthorization: true,
+      persistAuthorization: false,
     },
     customSiteTitle: 'My API Docs',
   };
 
-  SwaggerModule.setup('docs', app, document, customOptions);
+  SwaggerModule.setup('swagger', app, document, customOptions);
 
   //Boot the application
   await app.listen(appConfig.port, appConfig.url);

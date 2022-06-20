@@ -3,6 +3,8 @@ import { AppConfigModule } from '@app/config/app/config.module';
 import { ApiConfigModule } from '@app/config/api/config.module';
 import { ApiConfigService } from '@app/config/api/config.service';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { DatabaseProviderModule } from '@app/providers/database/provider.module';
+import { UserModule } from '@app/modules/user/user.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
       }),
     }),
     AppConfigModule,
+    DatabaseProviderModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
