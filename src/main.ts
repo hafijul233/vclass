@@ -16,6 +16,9 @@ async function bootstrap() {
   // Get app config for cors settings and starting the app.
   const appConfig: AppConfigService = app.get(AppConfigService);
   await app.listen(appConfig.port, appConfig.url);
+
+  // Getting app url of running
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
 bootstrap();
