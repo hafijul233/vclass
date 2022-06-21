@@ -7,19 +7,32 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 if (process.env.APP_ENV === 'production') {
   require('module-alias/register');
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
 
   app
     .setGlobalPrefix('api')
-    .useGlobalPipes(new ValidationPipe({ transform: true }));
+    .useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+        validationError: { target: false, value: false },
+      }),
+    )
+    .useStaticAssets(join(__dirname, '..', 'public'))
+    .setBaseViewsDir(join(__dirname, '..', 'views'))
+    .setViewEngine('hbs');
 
   // Get app config for cors settings and starting the app.
   const appConfig: AppConfigService = app.get(AppConfigService);
