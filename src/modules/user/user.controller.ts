@@ -29,8 +29,13 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { FindUserDto } from '@app/modules/user/dto/find-user.dto';
-import { HttpExceptionDto, ValidationDto } from '@app/common/dtos';
 import { PaginatedDto } from '@app/common/dtos/paginate.dto';
+import {
+  ForbiddenDto,
+  ServerErrorDto,
+  UnauthorizedDto,
+  ValidationDto,
+} from '@app/common/dtos/exception';
 
 @Controller('users')
 @ApiTags('users')
@@ -40,15 +45,15 @@ import { PaginatedDto } from '@app/common/dtos/paginate.dto';
 })
 @ApiUnauthorizedResponse({
   description: 'Unauthorized Access',
-  type: HttpExceptionDto,
+  type: UnauthorizedDto,
 })
 @ApiForbiddenResponse({
   description: 'Access Forbidden',
-  type: HttpExceptionDto,
+  type: ForbiddenDto,
 })
 @ApiInternalServerErrorResponse({
   description: 'Internal Server Error',
-  type: HttpExceptionDto,
+  type: ServerErrorDto,
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
