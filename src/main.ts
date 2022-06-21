@@ -16,7 +16,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
   });
-  app.setGlobalPrefix('api').useGlobalPipes(new ValidationPipe());
+
+  app
+    .setGlobalPrefix('api')
+    .useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // Get app config for cors settings and starting the app.
   const appConfig: AppConfigService = app.get(AppConfigService);
@@ -28,7 +31,16 @@ async function bootstrap() {
       'vClass stands for Virtual Classroom which was a project assigned to me as an technical assessment test.',
     )
     .setVersion('1.0')
-    .addTag('cats')
+    .setContact(
+      'Support Team',
+      'https://hafijulislam.me/',
+      'support@hafijulislam.me',
+    )
+    .setLicense('MIT License', 'https://www.mit.edu/~amini/LICENSE.md')
+    .addServer(
+      `http://${appConfig.url}:${appConfig.port}/api/`,
+      'Local Testing Server',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,

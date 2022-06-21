@@ -1,15 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Role } from '@app/common/constants';
 
-export class FindUserDto {
+export class PaginatedDto<TData> {
   @ApiPropertyOptional({
-    type: 'enum',
-    enum: Role,
+    type: Number,
     description: 'total number of items received from  query',
-    default: Role.Guest,
-    example: Role.Student,
   })
-  role: string;
+  total: number;
 
   @ApiPropertyOptional({
     type: Number,
@@ -22,4 +18,6 @@ export class FindUserDto {
     description: 'number of items should be escaped',
   })
   offset: number;
+
+  data: TData[];
 }

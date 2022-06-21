@@ -60,7 +60,7 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.Student })
   @ApiPropertyOptional({
     type: String,
-    description: 'Present Street Address',
+    description: 'Role of user',
     example: Role.Student,
     default: Role.Guest,
   })

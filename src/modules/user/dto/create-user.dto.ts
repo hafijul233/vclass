@@ -1,5 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '@app/common/constants';
+import {
+  IsAlpha,
+  IsEmail,
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -7,6 +15,8 @@ export class CreateUserDto {
     description: 'Full name',
     example: 'Mohammad Hafijul Islam',
   })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
@@ -14,6 +24,9 @@ export class CreateUserDto {
     description: 'Email Address',
     example: 'admin@example.com',
   })
+  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @ApiPropertyOptional({
@@ -21,6 +34,8 @@ export class CreateUserDto {
     description: 'Mobile Number',
     example: '01689553434',
   })
+  @IsOptional()
+  @IsNumberString()
   mobile: null | string;
 
   @ApiPropertyOptional({
@@ -28,6 +43,8 @@ export class CreateUserDto {
     description: 'Present Street Address',
     example: '334 No Shamlapur, Savar, Dhaka-1207.',
   })
+  @IsOptional()
+  @IsString()
   address: null | string;
 
   @ApiProperty({
@@ -36,13 +53,17 @@ export class CreateUserDto {
     example: '123456',
     default: 'password',
   })
-  password: null | string;
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
   @ApiPropertyOptional({
     type: String,
-    description: 'Present Street Address',
+    description: 'Role of user',
     example: Role.Student,
     default: Role.Guest,
   })
+  @IsString()
+  @IsAlpha()
   role: Role;
 }

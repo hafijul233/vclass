@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -16,71 +17,139 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiParam,
+  ApiTags,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { FindUserDto } from '@app/modules/user/dto/find-user.dto';
+import { HttpExceptionDto, ValidationDto } from '@app/common/dtos';
+import { PaginatedDto } from '@app/common/dtos/paginate.dto';
 
 @Controller('users')
+@ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  @ApiBody({ description: 'Create new user', type: CreateUserDto })
-  @ApiCreatedResponse({ description: 'Create new user', type: User })
-  @ApiBadRequestResponse({ description: 'Validation error' })
-  @ApiForbiddenResponse({ description: 'Access Forbidden' })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
   @Get()
-  @ApiBody({ description: 'Return all users as list', type: CreateUserDto })
+  @ApiExtraModels(PaginatedDto)
   @ApiOkResponse({
     description: 'Return all users as list',
-    type: [User],
-    isArray: true,
+    schema: {
+      allOf: [
+        { $ref: getSchemaPath(PaginatedDto) },
+        {
+          properties: {
+            data: {
+              type: 'array',
+              items: { $ref: getSchemaPath(User) },
+            },
+          },
+        },
+      ],
+    },
   })
-  @ApiForbiddenResponse({ description: 'Access Forbidden' })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  @ApiForbiddenResponse({
+    description: 'Access Forbidden',
+    type: HttpExceptionDto,
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: HttpExceptionDto,
+  })
   async findAll(@Query() findUserDto: FindUserDto): Promise<User[]> {
     return await this.userService.findAll(findUserDto);
   }
 
+  @Post()
+  @ApiBody({ description: 'Create new user', type: CreateUserDto })
+  @ApiCreatedResponse({ description: 'Create new user', type: User })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: ValidationDto,
+  })
+  @ApiForbiddenResponse({
+    description: 'Access Forbidden',
+    type: HttpExceptionDto,
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: HttpExceptionDto,
+  })
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
+
   @Get(':id')
-  @ApiBody({ description: 'User details', type: Number })
-  @ApiBadRequestResponse({ description: 'Validation error' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    description: 'user id number',
+    required: true,
+  })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: ValidationDto,
+  })
   @ApiOkResponse({ description: 'User details', type: User })
-  @ApiForbiddenResponse({ description: 'Access Forbidden' })
+  @ApiForbiddenResponse({
+    description: 'Access Forbidden',
+    type: HttpExceptionDto,
+  })
   @ApiNotFoundResponse({ description: 'Data Not Found' })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: HttpExceptionDto,
+  })
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
   @ApiBody({ description: 'Update user details', type: UpdateUserDto })
-  @ApiBadRequestResponse({ description: 'Validation error' })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: ValidationDto,
+  })
   @ApiOkResponse({ description: 'Updated user details', type: User })
-  @ApiForbiddenResponse({ description: 'Access Forbidden' })
+  @ApiForbiddenResponse({
+    description: 'Access Forbidden',
+    type: HttpExceptionDto,
+  })
   @ApiNotFoundResponse({ description: 'Data Not Found' })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: HttpExceptionDto,
+  })
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @ApiBody({ description: 'Soft delete a user', type: UpdateUserDto })
   @ApiNoContentResponse({ description: 'item is deleted ' })
-  @ApiBadRequestResponse({ description: 'Validation error' })
-  @ApiForbiddenResponse({ description: 'Access Forbidden' })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: ValidationDto,
+  })
+  @ApiForbiddenResponse({
+    description: 'Access Forbidden',
+    type: HttpExceptionDto,
+  })
   @ApiNotFoundResponse({ description: 'Data Not Found' })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: HttpExceptionDto,
+  })
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.remove(id);
   }
 }
