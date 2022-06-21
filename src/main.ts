@@ -38,7 +38,7 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: false,
     },
-    customSiteTitle: 'My API Docs',
+    customSiteTitle: 'vClass API Documentation',
   };
 
   SwaggerModule.setup('swagger', app, document, customOptions);
@@ -48,7 +48,7 @@ async function bootstrap() {
 
   // Getting app url of running
   console.log(`Application URL: ${await app.getUrl()}/api`);
-  console.log(`Swagger URL: ${await app.getUrl()}/docs`);
+  console.log(`Swagger URL: ${await app.getUrl()}/swagger`);
 }
 
 bootstrap();

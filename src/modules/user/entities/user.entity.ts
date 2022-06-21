@@ -1,94 +1,77 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Enabled, Role } from '@app/common/constants';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  parent_id: null | string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @ApiProperty({
+    type: String,
+    description: 'Full name',
+    example: 'Mohammad Hafijul Islam',
+  })
+  name: string;
 
-  @Column()
-  name: null | string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @ApiProperty({
+    type: String,
+    description: 'Email Address',
+    example: 'admin@example.com',
+  })
+  email: string;
 
-  @Column()
-  mobile_number: null | string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @ApiPropertyOptional({
+    type: String,
+    description: 'Mobile Number',
+    example: '01689553434',
+  })
+  mobile: null | string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @ApiPropertyOptional({
+    type: String,
+    description: 'Present Street Address',
+    example: '334 No Shamlapur, Savar, Dhaka-1207.',
+  })
+  address: null | string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @ApiProperty({
+    type: String,
+    description: 'Password',
+    example: '123456',
+    default: 'password',
+  })
   password: null | string;
 
-  @Column()
-  pin: null | string;
-
-  @Column()
-  active: null | string;
-
-  @Column()
-  wrong_password: null | string;
-
-  @Column()
-  wrong_pin: null | string;
-
-  @Column()
-  risk_profiling: null | string;
-
-  @Column()
-  is_jompay_allowed: null | string;
-
-  @Column()
-  app_version: null | string;
-
-  @Column()
-  fcm_token: null | string;
-
-  @Column()
-  default_language: null | string;
-
-  @Column()
-  default_currency: null | string;
-
-  @Column()
-  default_country_id: null | string;
-
-  @Column()
-  applicant_id: null | string;
-
-  @Column()
-  check_id: null | string;
-
-  @Column()
-  application_id: null | string;
-
-  @Column()
-  document_id: null | string;
-
-  @Column()
-  is_on_fido: null | string;
-
-  @Column()
-  on_fido_update_count: null | string;
-
-  @Column()
-  on_fido_check_count: null | string;
-
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: true })
   remember_token: null | string;
 
-  @Column()
-  deleted_by: null | string;
+  @Column({ type: 'enum', enum: Role, default: Role.Student })
+  @ApiPropertyOptional({
+    type: String,
+    description: 'Present Street Address',
+    example: Role.Student,
+    default: Role.Guest,
+  })
+  role: Role;
 
-  @Column()
-  created_by: null | string;
+  @Column({ type: 'enum', enum: Enabled, default: Enabled.Yes })
+  enabled: Enabled;
 
-  @Column()
-  updated_by: null | string;
+  @CreateDateColumn({ type: 'datetime' })
+  created_at: null | Date;
 
-  @Column()
-  deleted_at: null | string;
-
-  @Column()
-  created_at: null | string;
-
-  @Column()
-  updated_at: null | string;
+  @UpdateDateColumn({ type: 'datetime' })
+  updated_at: null | Date;
 }
