@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Enabled, Role } from '@app/common/constants';
+import { EnabledEnum, RoleEnum } from '@app/common/constants';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity('users')
@@ -57,17 +57,17 @@ export class User {
   @Column({ type: 'varchar', length: 255, nullable: true })
   remember_token: null | string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.Student })
+  @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.Student })
   @ApiPropertyOptional({
     type: String,
-    description: 'Role of user',
-    example: Role.Student,
-    default: Role.Guest,
+    description: 'RoleEnum of user',
+    example: RoleEnum.Student,
+    default: RoleEnum.Guest,
   })
-  role: Role;
+  role: RoleEnum;
 
-  @Column({ type: 'enum', enum: Enabled, default: Enabled.Yes })
-  enabled: Enabled;
+  @Column({ type: 'enum', enum: EnabledEnum, default: EnabledEnum.Yes })
+  enabled: EnabledEnum;
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: null | Date;

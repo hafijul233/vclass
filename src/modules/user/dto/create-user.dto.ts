@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Role } from '@app/common/constants';
+import { RoleEnum } from '@app/common/constants';
 import {
   IsAlpha,
   IsEmail,
@@ -59,11 +59,11 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({
     type: String,
-    description: 'Role of user',
-    example: Role.Student,
-    default: Role.Guest,
+    description: 'RoleEnum of user',
+    example: RoleEnum.Student,
+    default: RoleEnum.Guest,
   })
   @IsString()
   @IsAlpha()
-  role: Role;
+  role: RoleEnum;
 }

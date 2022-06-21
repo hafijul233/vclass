@@ -1,9 +1,9 @@
-export enum Enabled {
+export enum EnabledEnum {
   'Yes' = 'yes',
   'No' = 'no',
 }
 
-export enum Role {
+export enum RoleEnum {
   'Root' = 'root',
   'Admin' = 'admin',
   'Teacher' = 'teacher',

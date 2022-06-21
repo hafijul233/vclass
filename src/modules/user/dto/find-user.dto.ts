@@ -1,13 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Role } from '@app/common/constants';
+import { RoleEnum } from '@app/common/constants';
 
 export class FindUserDto {
   @ApiPropertyOptional({
     type: 'enum',
-    enum: Role,
+    enum: RoleEnum,
     description: 'total number of items received from  query',
-    default: Role.Guest,
-    example: Role.Student,
+    default: RoleEnum.Guest,
+    example: RoleEnum.Student,
   })
   role: string;
 

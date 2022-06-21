@@ -9,15 +9,25 @@ export class PaginatedDto<TData> {
 
   @ApiPropertyOptional({
     type: Number,
-    description: 'number of items should be included',
+    description: 'total number of items will send per page',
   })
-  limit: number;
+  per_page: number;
 
   @ApiPropertyOptional({
     type: Number,
-    description: 'number of items should be escaped',
+    description: 'current page number',
   })
-  offset: number;
+  current: number;
 
+  @ApiPropertyOptional({
+    type: Number,
+    description: 'last page number available',
+  })
+  last: number;
+
+  @ApiPropertyOptional({
+    type: 'array',
+    description: 'collection of items',
+  })
   data: TData[];
 }
