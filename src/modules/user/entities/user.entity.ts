@@ -2,6 +2,7 @@ import { Column, Entity } from 'typeorm';
 import { RoleEnum } from '@app/common/constants';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BaseEntity } from '@app/common/entity';
+import { Expose } from 'class-transformer';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -37,7 +38,7 @@ export class User extends BaseEntity {
   })
   address: null | string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true, select: false })
   @ApiProperty({
     type: String,
     description: 'Password',
@@ -46,7 +47,7 @@ export class User extends BaseEntity {
   })
   password: null | string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true, select: false })
   remember_token: null | string;
 
   @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.Student })

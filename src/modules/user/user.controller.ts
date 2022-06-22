@@ -25,8 +25,6 @@ import {
   FindUserDto,
   UpdateUserDto,
 } from '@app/modules/user/dto';
-import { enumToArray } from '@app/common/helpers';
-import { RoleEnum } from '@app/common/constants';
 
 @Controller('users')
 @ApiTags('user')
