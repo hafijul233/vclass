@@ -9,7 +9,6 @@ import {
 } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import { PaginatedDto } from '@app/common/dtos';
 
 if (process.env.APP_ENV === 'production') {
   require('module-alias/register');
@@ -18,6 +17,7 @@ if (process.env.APP_ENV === 'production') {
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
+    logger: ['error', 'warn'],
   });
 
   app
