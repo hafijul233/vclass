@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -45,19 +46,22 @@ export class UserController {
 
   @Get(':id')
   @ApiShow(User)
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
 
   @Patch(':id')
   @ApiUpdate(User)
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @ApiRemove(User)
-  remove(@Param('id') id: number) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);
   }
 }
