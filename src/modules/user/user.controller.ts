@@ -25,6 +25,8 @@ import {
   FindUserDto,
   UpdateUserDto,
 } from '@app/modules/user/dto';
+import { enumToArray } from '@app/common/helpers';
+import { RoleEnum } from '@app/common/constants';
 
 @Controller('users')
 @ApiTags('user')
@@ -35,28 +37,35 @@ export class UserController {
   @Get()
   @ApiIndex(User)
   async findAll(@Query() findUserDto: FindUserDto): Promise<User[]> {
-    return await this.userService.findAll(findUserDto);
+    let users = [];
+    try {
+      users = await this.userService.findAll(findUserDto);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      return users;
+    }
   }
 
   @Post()
   @ApiCreate(User)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<User | null> {
+    return await this.userService.create(createUserDto);
   }
 
   @Get(':id')
   @ApiShow(User)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return await this.userService.findOne(id);
   }
 
   @Patch(':id')
   @ApiUpdate(User)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.update(id, updateUserDto);
+    return await this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

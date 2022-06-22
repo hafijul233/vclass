@@ -3,11 +3,13 @@ import { RoleEnum } from '@app/common/constants';
 import {
   IsAlpha,
   IsEmail,
+  IsIn,
   IsNotEmpty,
   IsNumberString,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { enumToArray } from '@app/common/helpers';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -65,5 +67,6 @@ export class CreateUserDto {
   })
   @IsString()
   @IsAlpha()
+  @IsIn(enumToArray(RoleEnum))
   role: RoleEnum;
 }
