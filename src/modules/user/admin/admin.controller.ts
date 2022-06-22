@@ -1,34 +1,77 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AdminService } from './admin.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreate,
+  ApiHttpExceptionResponse,
+  ApiIndex,
+  ApiRemove,
+  ApiShow,
+  ApiUpdate,
+} from '@app/common/decorators';
+import { User } from '@app/modules/user/entities/user.entity';
+import {
+  CreateAdminDto,
+  FindAdminDto,
+  UpdateAdminDto,
+} from '@app/modules/user/admin/dto';
+import { AdminRoleInterceptor } from '@app/modules/user/admin/interceptors/admin-role.interceptor';
+import { AdminService } from '@app/modules/user/admin/admin.service';
 
-@Controller('admin')
+@Controller('admins')
+@ApiTags('admin')
+@ApiHttpExceptionResponse()
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @Post()
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
+  @Get()
+  @ApiIndex(User, 'Admin')
+  async findAll(@Query() findAdminDto: FindAdminDto): Promise<User[]> {
+    let admins = [];
+    try {
+      admins = await this.adminService.findAll(findAdminDto);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      return admins;
+    }
   }
 
-  @Get()
-  findAll() {
-    return this.adminService.findAll();
+  @Post()
+  @UseInterceptors(AdminRoleInterceptor)
+  @ApiCreate(User, 'Admin')
+  async create(@Body() createAdminDto: CreateAdminDto): Promise<User | null> {
+    return await this.adminService.create(createAdminDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(+id);
+  @ApiShow(User, 'Admin')
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return await this.adminService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.update(+id, updateAdminDto);
+  @ApiUpdate(User, 'Admin')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateAdminDto: UpdateAdminDto,
+  ) {
+    return await this.adminService.update(id, updateAdminDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adminService.remove(+id);
+  @ApiRemove(User, 'Admin')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.adminService.remove(id);
   }
 }

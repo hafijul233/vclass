@@ -38,7 +38,6 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: any, relations: string[] = []) {
-    console.log(updateUserDto);
     return await this.userRepository
       .update(id, updateUserDto)
       .then(async () => await this.findOne(id, relations))

@@ -33,6 +33,7 @@ async function bootstrap() {
     )
     .enableVersioning({
       type: VersioningType.URI,
+      defaultVersion: '1',
     })
     .useStaticAssets(join(__dirname, '..', 'public'))
     .setBaseViewsDir(join(__dirname, '..', 'views'))

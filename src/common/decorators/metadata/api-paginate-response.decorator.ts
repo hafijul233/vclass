@@ -4,7 +4,11 @@ import { PaginatedDto } from '@app/common/dtos';
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(
   model: TModel,
+  alias: string = null,
 ) => {
+  if (!alias) {
+    alias = model.name;
+  }
   return applyDecorators(
     ApiExtraModels(PaginatedDto),
     ApiOkResponse({
@@ -17,7 +21,7 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(
                 type: 'array',
                 items: { $ref: getSchemaPath(model) },
                 description:
-                  `list of all ${model.name} models queried`.toLowerCase(),
+                  `list of all ${alias} models queried`.toLowerCase(),
               },
             },
           },

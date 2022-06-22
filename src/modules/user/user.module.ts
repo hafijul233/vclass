@@ -13,7 +13,7 @@ import { User } from './entities/user.entity';
     TypeOrmModule.forFeature([User]),
     RouterModule.register([
       {
-        path: 'users',
+        path: 'user',
         module: AdminModule,
       },
     ]),
