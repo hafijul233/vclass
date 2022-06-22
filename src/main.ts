@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@app/app.module';
 import { AppConfigService } from '@app/config/app/config.service';
@@ -28,9 +28,12 @@ async function bootstrap() {
         transformOptions: {
           enableImplicitConversion: true,
         },
-        validationError: { target: false, value: false },
+        validationError: { target: true, value: false },
       }),
     )
+    .enableVersioning({
+      type: VersioningType.URI,
+    })
     .useStaticAssets(join(__dirname, '..', 'public'))
     .setBaseViewsDir(join(__dirname, '..', 'views'))
     .setViewEngine('hbs');
