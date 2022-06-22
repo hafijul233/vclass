@@ -9,6 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { PaginatedDto } from '@app/common/dtos';
 
 if (process.env.APP_ENV === 'production') {
   require('module-alias/register');
@@ -57,6 +58,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,
+    /*    extraModels: [PaginatedDto],*/
   });
 
   const customOptions: SwaggerCustomOptions = {

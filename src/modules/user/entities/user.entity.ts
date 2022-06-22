@@ -67,11 +67,30 @@ export class User {
   role: RoleEnum;
 
   @Column({ type: 'enum', enum: EnabledEnum, default: EnabledEnum.Yes })
+  @ApiPropertyOptional({
+    type: 'enum',
+    enum: EnabledEnum,
+    description: 'if user is enabled or not',
+    example: EnabledEnum.No,
+    default: EnabledEnum.Yes,
+  })
   enabled: EnabledEnum;
 
   @CreateDateColumn({ type: 'datetime' })
+  @ApiPropertyOptional({
+    type: Date,
+    description: 'created datetime',
+    example: '2022-06-22T06:11:06.765Z',
+    default: null,
+  })
   created_at: null | Date;
 
   @UpdateDateColumn({ type: 'datetime' })
+  @ApiPropertyOptional({
+    type: Date,
+    description: 'last updated datetime',
+    example: '2022-06-22T06:11:06.765Z',
+    default: null,
+  })
   updated_at: null | Date;
 }

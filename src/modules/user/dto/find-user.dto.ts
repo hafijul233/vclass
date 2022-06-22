@@ -6,8 +6,6 @@ export class FindUserDto {
     type: 'enum',
     enum: RoleEnum,
     description: 'total number of items received from  query',
-    default: RoleEnum.Guest,
-    example: RoleEnum.Student,
   })
   role: string;
 

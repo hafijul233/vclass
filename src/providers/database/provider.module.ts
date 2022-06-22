@@ -19,7 +19,7 @@ import { DatabaseConfigService } from '@app/config/database/config.service';
         autoLoadEntities: true,
         entities: [__dirname + '/../../**/*.entity.{ts,js}'],
         subscribers: [__dirname + '/../../**/*.subscriber.{ts,js}'],
-        logging: true,
+        logging: ['error', 'warn'],
         synchronize: true,
         dropSchema: false,
         namingStrategy: new SnakeNamingStrategy(),
