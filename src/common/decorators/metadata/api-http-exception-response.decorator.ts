@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import {
   ForbiddenDto,
+  ServerErrorDto,
   UnauthorizedDto,
   ValidationDto,
 } from '@app/common/dtos/exception';
@@ -27,6 +28,11 @@ export const ApiHttpExceptionResponse = () => {
     ApiForbiddenResponse({
       description: 'Access Forbidden',
       type: ForbiddenDto,
+    }),
+    //500
+    ApiInternalServerErrorResponse({
+      description: 'Internal Server Error',
+      type: ServerErrorDto,
     }),
   );
 };
